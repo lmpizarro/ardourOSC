@@ -44,14 +44,16 @@ config3 = {'QUIT':{'topic':'/access_action', 'load':['Common/Quit']},
 
 
 from OSC import OSCClient, OSCMessage
-
-osc_client = OSCClient()
-osc_client.connect( ('192.168.0.38', 3819) )
+import OSC
 
 global net_adress
 global port_number 
 port_number = 3819
-net_adress = '192.168.1.1'
+net_adress = '192.168.14.39'
+
+osc_client = OSCClient()
+osc_client.connect( (net_adress, port_number) )
+
 
 class Message():
     def __init__(self, app, message):
@@ -68,8 +70,11 @@ class Message():
             if len(load) > 0:
                mess.append(load[0])
             print mess
-            osc_client.connect((self.app.net_addr, int(self.app.port_nbr)))
-            osc_client.send( mess )
+            try:
+                osc_client.connect((self.app.net_addr, int(self.app.port_nbr)))
+                osc_client.send( mess )
+            except OSC.OSCClientError, e:
+                print 'oss connection error'
         return func
 
 class TestApp(App):
