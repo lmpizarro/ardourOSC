@@ -1,0 +1,4 @@
+title=createButtons
+author=lmpizarro
+orientation=landscape
+fullscreen=1
